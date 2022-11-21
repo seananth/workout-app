@@ -6,14 +6,19 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
 
+type muscleType = 'PRIMARY' | 'SECONDARY';
+
 type muscle = {
   id?: number;
   name: string;
+  type?: muscleType
 };
 
 interface excercise {
   name: string;
   muscles: muscle[];
+  primaryStress?: number;
+  secondaryStress?: number;
 }
 
 interface workout {
@@ -23,7 +28,7 @@ interface workout {
 
 const excercises: excercise[] = [
   {
-    name: "benchpress",
+    name: "Benchpress",
     muscles: [
       { name: "pectoralis major" },
       { name: "anterior deltoid" },
@@ -33,7 +38,7 @@ const excercises: excercise[] = [
     ],
   },
   {
-    name: "deadlift",
+    name: "Deadlift",
     muscles: [
       { name: "hamstrings" },
       { name: "glutes" },
@@ -43,33 +48,31 @@ const excercises: excercise[] = [
       { name: "trapezius" },
     ],
   },
+  {
+    name: "Squat",
+    muscles: [
+      { name: "glutes" },
+      { name: "quadriceps" },
+      { name: "hamstrings" },
+      { name: "adductor" },
+      { name: "hip flexors" },
+      { name: "calves" },
+    ],
+  },
+  {
+    name: "Military press",
+    muscles: [
+      { name: "front delts" },
+      { name: "middle delts" },
+      { name: "rear delts" },
+      { name: "core" },
+    ],
+  },
 ];
 
 const defaultWorkout: workout = {
   day: "monday",
-  excercises: [
-    {
-      name: "Benchpress",
-      muscles: [
-        { name: "pectoralis major" },
-        { name: "anterior deltoid" },
-        { name: "triceps" },
-        { name: "biceps" },
-        { name: "serratus anterior" },
-      ],
-    },
-    {
-      name: "Deadlift",
-      muscles: [
-        { name: "hamstrings" },
-        { name: "glutes" },
-        { name: "back" },
-        { name: "hips" },
-        { name: "core" },
-        { name: "trapezius" },
-      ],
-    },
-  ],
+  excercises: excercises
 };
 
 const Home: NextPage = () => {
